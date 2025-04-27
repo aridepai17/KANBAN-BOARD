@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # KANBAN BOARD
 
 A retro-style **Kanban board** built with **React**, **TypeScript**, and **TailwindCSS**.  
@@ -37,15 +38,4 @@ Make sure you have **Node.js** and **npm** installed on your system. If not, you
 ## License 📄
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
-
-
-
-
-
-
-   
-
-  
-  
-
 
