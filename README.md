@@ -34,7 +34,10 @@ Make sure you have **Node.js** and **npm** installed on your system. If not, you
   decrease the points by clicking the + or - buttons.
 
 ## LICENSE 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## License 📄
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
 
 
 
