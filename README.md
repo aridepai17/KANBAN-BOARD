@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 # KANBAN BOARD
-
 A retro-style **Kanban board** built with **React**, **TypeScript**, and **TailwindCSS**.  
 This project lets you organize tasks by different statuses: **Todo**, **In Progress**, and **Done**. You can drag and drop tasks between these columns, and each task has a priority (low, medium, high) with a point system based on the Fibonacci sequence.
 
 ## Features 
-
 - **Drag and drop**: Move tasks between columns to update their status.
 - **Priority icons**: Tasks are colored based on priority (low, medium, high).
 - **Retro-style UI**: Inspired by classic gaming interfaces, with a **Press Start 2P** font.
@@ -34,8 +31,6 @@ Make sure you have **Node.js** and **npm** installed on your system. If not, you
 - Points System: Tasks have points associated with them, which follow a Fibonacci sequence (0, 1, 2, 3, 5, 8, 13). You can increase or     
   decrease the points by clicking the + or - buttons.
 
-## LICENSE 
-## License 📄
-
+## LICENSE 📄
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
