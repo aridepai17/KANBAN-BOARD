@@ -1,4 +1,101 @@
+/* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Import Press Start 2P font */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Custom styles */
+body {
+  font-family: 'Press Start 2P', cursive;
+  background-color: #121212;
+  color: #E0E0E0;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Retro game style customizations */
+h1, h2, h3 {
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+button {
+  padding: 0.25rem 0.5rem;
+  background-color: #000000;
+  color: white;
+  border: 2px solid #777;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+button:hover {
+  background-color: #444;
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+/* Card styling */
+.border {
+  border: 2px solid #ffffff;
+  box-shadow: 3px 3px 0px #222;
+}
+
+/* Status column styling */
+.capitalize {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Main layout */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.max-w-6xl {
+  max-width: 72rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Customize scrollbar for retro feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #222;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border: 1px solid #666;
+}
