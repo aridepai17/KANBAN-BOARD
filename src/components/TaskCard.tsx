@@ -13,10 +13,11 @@ const highPriorityIcon = <svg xmlns="http://www.w3.org/2000/svg" className="h-6 
 </svg>
 
 
-const TaskCard = ({task, updateTaskPoints}:{
+const TaskCard = ({task, updateTask}:{
     task: Task
-    updateTaskPoints: (task: Task, points: number) => void
+    updateTask: (task: Task) => void
     }) => {
+    const [ isEditingTitle, setIsEditingTitle ] = useState(false)
     const points = task.points || 0
 
     const updatePoints = (direction: 'up' | 'down') => {
@@ -25,12 +26,24 @@ const TaskCard = ({task, updateTaskPoints}:{
         const nextIndex = direction === 'up' ? index + 1 : index - 1
         const newPoints = fib[nextIndex]
         if(newPoints){
-            updateTaskPoints(task, newPoints)
+            updateTask({...task, points: newPoints})
         }
     }
     return <div className = "text-4xl border rounded-lg px-2 m-2 bg-gray-50 w-56">
         <div className = "text-base font-basepy-2">
+            {isEditingTitle ? (
+                <input
+                autoFocus
+                className="w-full"
+                onBlur={() => setIsEditingTitle(false)}
+                value = {task.title}
+                onChange = {(e) => updateTask({...task, title: e.target.value})}
+                />
+            ) : (
+            <div onClick = {() => setIsEditingTitle(true)}>
             {task.title}
+            </div>
+            )}
         </div>
         <div className='flex-gap-4 justify-between py-2 text-gray-500 text-sm'>
             <div className='flex gap-2'>
