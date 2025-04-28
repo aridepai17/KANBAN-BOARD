@@ -61,7 +61,7 @@ function App() {
               onDragOver={(e) => e.preventDefault()}
               onDragEnter={() => handleDragEnter(column.status)}
             >
-              <div className="flex justify-between text-2xl p-2 font-bold text-gray-700">
+              <div className="flex justify-between text-2xl p-2 font-bold text-gray-100">
                 <h2 className="capitalize text-center w-full">{column.status}</h2>
                 <div className="ml-2">
                   {column.tasks.reduce((total, task) => total + (task?.points || 0), 0)}
