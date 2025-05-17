@@ -1,85 +1,95 @@
-import { useState } from 'react'
 import { Task } from '../utils/data-tasks'
+import '../index.css'
 
-const lowPriorityIcon = (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 9l7 7 7-7" />
-  </svg>
-);
+interface TaskCardProps {
+  task: Task
+  updateTask: (task: Task) => void
+  deleteTask: (id: string) => void
+}
 
-const mediumPriorityIcon = (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10h14" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 14h14" />
-  </svg>
-);
+function TaskCard({ task, updateTask, deleteTask }: TaskCardProps) {
+  const FIB_POINTS = [1, 2, 3, 5, 8, 13, 21]
 
-const highPriorityIcon = (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-  </svg>
-);
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData('id', task.id)
+  }
 
-const TaskCard = ({ task, updateTask }: { task: Task; updateTask: (task: Task) => void }) => {
-  const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const points = task.points || 0;
-
-  const updatePoints = (direction: 'up' | 'down') => {
-    const fib = [0, 1, 2, 3, 5, 8, 13];
-    const index = fib.indexOf(points);
-    const nextIndex = direction === 'up' ? index + 1 : index - 1;
-    const newPoints = fib[nextIndex];
-    if (newPoints !== undefined) {
-      updateTask({ ...task, points: newPoints });
+  const handleIncreasePoints = () => {
+    const points = task.points ?? 1;
+    const i = FIB_POINTS.indexOf(points);
+    if (i !== -1 && i < FIB_POINTS.length - 1) {
+      updateTask({ ...task, points: FIB_POINTS[i + 1] });
     }
-  };
+  }
+  
+  const handleDecreasePoints = () => {
+    const points = task.points ?? 1;
+    const i = FIB_POINTS.indexOf(points);
+    if (i > 0) {
+      updateTask({ ...task, points: FIB_POINTS[i - 1] });
+    }
+  }
+  
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'low':
+        return 'bg-green-600'
+      case 'medium':
+        return 'bg-yellow-500'
+      case 'high':
+        return 'bg-red-600'
+      default:
+        return 'bg-gray-500'
+    }
+  }
 
   return (
     <div
       draggable
-      onDragStart={(e) => {
-        e.dataTransfer.setData('id', task.id);
-      }}
-      className="border rounded-lg px-2 m-2 bg-white text-black hover:bg-green-400 w-full max-w-xs mx-auto"
+      onDragStart={handleDragStart}
+      className="border bg-black text-white p-4 mb-4 rounded-md shadow-lg cursor-move transition-transform duration-150 hover:scale-[1.01]"
     >
-      <div className="text-base font-base py-2">
-        {isEditingTitle ? (
-          <input
-            autoFocus
-            className="w-full bg-gray-200 text-black p-1 rounded border-none"
-            onBlur={() => setIsEditingTitle(false)}
-            value={task.title}
-            onChange={(e) => updateTask({ ...task, title: e.target.value })}
-          />
-        ) : (
-          <div
-            onClick={() => setIsEditingTitle(true)}
-            className="cursor-pointer hover:bg-gray-200 p-1 rounded"
-          >
-            {task.title}
-          </div>
-        )}
-      </div>
+      <div className="flex justify-between items-start">
+        <div>
+          <h3 className="text-base font-bold mb-2">{task.title}</h3>
 
-      <div className="flex gap-4 justify-between py-2 text-gray-900 text-sm">
-        <div className="flex gap-2 items-center">
-          <div>{task.id}</div>
-          {task.priority === 'high' && highPriorityIcon}
-          {task.priority === 'medium' && mediumPriorityIcon}
-          {task.priority === 'low' && lowPriorityIcon}
-        </div>
-        <div className="flex gap-2 items-center">
-          <button onClick={() => updatePoints('down')} className="px-2 py-0">
+          <div className="flex items-center gap-3 text-sm mb-2">
+            <button
+              onClick={handleDecreasePoints}
+              className="bg-gray-700 px-2 rounded hover:bg-gray-600"
+              title="Decrease"
+            >
             -
-          </button>
-          <div className="font-bold">{points}</div>
-          <button onClick={() => updatePoints('up')} className="px-2 py-0">
+            </button>
+            <span>{task.points} pts</span>
+            <button
+              onClick={handleIncreasePoints}
+              className="bg-gray-700 px-2 rounded hover:bg-gray-600"
+              title="Increase"
+            >
             +
-          </button>
+            </button>
+          </div>
+
+          <span
+            className={`inline-block px-2 py-1 text-xs rounded-full text-white ${getPriorityColor(
+              task.priority
+            )}`}
+          >
+            Priority: {task.priority}
+          </span>
         </div>
+
+        <button
+          onClick={() => deleteTask(task.id)}
+          className="text-red-500 hover:text-red-700 text-lg"
+          title="Delete Task"
+        >
+          ✕
+        </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TaskCard;
+export default TaskCard
