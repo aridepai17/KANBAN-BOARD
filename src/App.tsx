@@ -4,8 +4,11 @@ import TaskCard from "./components/TaskCard";
 import AddTaskForm from "./components/AddTaskForm";
 import { Status, statuses, Task } from "./utils/data-tasks";
 
+const STORAGE_KEY = "kanban-tasks";
+
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [currentlyHoveringOver, setCurrentlyHoveringOver] = useState<Status | null>(null);
 
   const columns = statuses.map((status) => ({
@@ -13,16 +16,35 @@ function App() {
     tasks: tasks.filter((task) => task.status === status),
   }));
 
+  // Load tasks from localStorage on component mount
   useEffect(() => {
-    fetch("/tasks.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setTasks(data.tasks || []);
-      })
-      .catch((error) => {
-        console.error("Error fetching tasks:", error);
-      });
+    try {
+      const savedTasks = localStorage.getItem(STORAGE_KEY);
+      if (savedTasks) {
+        const parsedTasks = JSON.parse(savedTasks);
+        setTasks(parsedTasks);
+      } else {
+        // Start with empty board - no default tasks
+        setTasks([]);
+      }
+      setIsInitialized(true);
+    } catch (error) {
+      console.error("Error loading tasks from localStorage:", error);
+      setTasks([]);
+      setIsInitialized(true);
+    }
   }, []);
+
+  // Save tasks to localStorage whenever tasks change (but not on initial load)
+  useEffect(() => {
+    if (isInitialized) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      } catch (error) {
+        console.error("Error saving tasks to localStorage:", error);
+      }
+    }
+  }, [tasks, isInitialized]);
 
   const updateTask = (updatedTask: Task) => {
     setTasks((prevTasks) =>
